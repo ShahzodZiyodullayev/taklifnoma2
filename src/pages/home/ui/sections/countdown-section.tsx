@@ -16,30 +16,17 @@ export const CountdownSection = () => {
   ];
 
   return (
-    <section className={styles.countdownSection}>
-      {/* Ornament divider */}
-      <div className={styles.ornamentDivider}>
-        <span className={styles.ornamentLine} />
-        <span className={styles.ornamentDiamond} />
-        <span className={styles.ornamentLine} />
-      </div>
+    <section className={`${styles.section} ${styles.countdown}`}>
+      <p className={styles.countdownLabel}>Baxtli kunga</p>
+      <h2 className={styles.countdownTitle}>Qolgan vaqt</h2>
 
-      <span className={styles.sectionLabel}>Baxtli kunga</span>
-
-      <div className={styles.countdownPanel}>
-        <div className={styles.countdownGlow} />
-        <div className={styles.countdownHeader}>
-          <h2 className={styles.countdownTitle}>Qolgan vaqt</h2>
-        </div>
-        <div className={styles.countdownGrid}>
-          {items.map((item) => (
-            <div key={item.label} className={styles.countdownCard}>
-              <div className={styles.countdownCardGlow} />
-              <span className={styles.countdownValue}>{item.value}</span>
-              <span className={styles.countdownLabel}>{item.label}</span>
-            </div>
-          ))}
-        </div>
+      <div className={styles.countdownGrid}>
+        {items.map((item) => (
+          <div key={item.label} className={styles.countdownCard}>
+            <span className={styles.countdownValue}>{item.value}</span>
+            <span className={styles.countdownUnit}>{item.label}</span>
+          </div>
+        ))}
       </div>
     </section>
   );

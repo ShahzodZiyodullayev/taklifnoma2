@@ -4,19 +4,17 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Scene3D } from "./scene-3d";
 import { HeroSection } from "./sections/hero-section";
 import { CountdownSection } from "./sections/countdown-section";
-import { CelebrationSection } from "./sections/celebration-section";
-import { QuoteSection } from "./sections/quote-section";
+import { InvitationSection } from "./sections/celebration-section";
+import { DetailsSection } from "./sections/details-section";
+import { RsvpSection } from "./sections/rsvp-section";
 import { FooterSection } from "./sections/footer-section";
 import styles from "./home.module.pcss";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PETAL_COUNT = 14;
-const ORB_COUNT = 5;
-
 const Home = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
   const [isMuted, setIsMuted] = useState(true);
 
   const toggleMusic = useCallback(() => {
@@ -34,7 +32,30 @@ const Home = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero section parallax
+      // Animate each section on scroll
+      const sections = [
+        `.${styles.countdown}`,
+        `.${styles.invitation}`,
+        `.${styles.details}`,
+        `.${styles.rsvp}`,
+        `.${styles.footer}`,
+      ];
+
+      sections.forEach((selector) => {
+        gsap.from(selector, {
+          scrollTrigger: {
+            trigger: selector,
+            start: "top 85%",
+            once: true,
+          },
+          opacity: 0,
+          y: 40,
+          duration: 0.9,
+          ease: "power2.out",
+        });
+      });
+
+      // Hero parallax on scroll
       gsap.to(`.${styles.hero}`, {
         scrollTrigger: {
           trigger: `.${styles.hero}`,
@@ -42,59 +63,38 @@ const Home = () => {
           end: "bottom top",
           scrub: true,
         },
-        "--hero-lift": "-40px",
-        "--hero-card-shift": "-20px",
-        "--hero-orbit-shift": "-30px",
+        opacity: 0.3,
+        y: -60,
       });
 
-      // Countdown section entrance
-      gsap.from(`.${styles.countdownPanel}`, {
+      // Detail cards stagger
+      gsap.from(`.${styles.detailCard}`, {
         scrollTrigger: {
-          trigger: `.${styles.countdownSection}`,
+          trigger: `.${styles.details}`,
           start: "top 80%",
-          end: "top 40%",
-          scrub: true,
-        },
-        opacity: 0,
-        y: 40,
-      });
-
-      // Celebration section entrance
-      gsap.from(`.${styles.celebrationShell}`, {
-        scrollTrigger: {
-          trigger: `.${styles.celebrationSection}`,
-          start: "top 80%",
-          end: "top 40%",
-          scrub: true,
-        },
-        opacity: 0,
-        y: 40,
-      });
-
-      // Quote section entrance
-      gsap.from(`.${styles.quoteCard}`, {
-        scrollTrigger: {
-          trigger: `.${styles.quoteSection}`,
-          start: "top 80%",
-          end: "top 40%",
-          scrub: true,
+          once: true,
         },
         opacity: 0,
         y: 30,
-        scale: 0.95,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: "power2.out",
       });
 
-      // Footer entrance
-      gsap.from(`.${styles.footer}`, {
+      // Countdown cards stagger
+      gsap.from(`.${styles.countdownCard}`, {
         scrollTrigger: {
-          trigger: `.${styles.footer}`,
-          start: "top 90%",
+          trigger: `.${styles.countdown}`,
+          start: "top 80%",
+          once: true,
         },
         opacity: 0,
-        y: 20,
-        duration: 0.8,
+        scale: 0.8,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
       });
-    }, frameRef);
+    }, pageRef);
 
     return () => ctx.revert();
   }, []);
@@ -108,58 +108,21 @@ const Home = () => {
       <audio ref={audioRef} src="/music/wedding.mp3" loop preload="none" />
       <button
         type="button"
+        className={styles.musicBtn}
         onClick={toggleMusic}
-        style={{
-          position: "fixed",
-          top: 16,
-          right: 16,
-          zIndex: 100,
-          width: 44,
-          height: 44,
-          borderRadius: "50%",
-          border: "1px solid rgba(241, 201, 141, 0.3)",
-          background: "rgba(0, 0, 0, 0.4)",
-          backdropFilter: "blur(10px)",
-          color: "#f1c98d",
-          fontSize: "1.2rem",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
         aria-label={isMuted ? "Musiqani yoqish" : "Musiqani o'chirish"}
       >
         {isMuted ? "🔇" : "🔊"}
       </button>
 
       {/* Main content */}
-      <div className={styles.home}>
-        <div ref={frameRef} className={styles.frame}>
-          {/* Decorative glows */}
-          <div className={styles.topGlow} />
-          <div className={styles.bottomGlow} />
-
-          {/* Floating petals */}
-          <div className={styles.petalField}>
-            {Array.from({ length: PETAL_COUNT }, (_, i) => (
-              <div key={i} className={styles.petal} />
-            ))}
-          </div>
-
-          {/* Floating orbs */}
-          <div className={styles.floatingOrbs}>
-            {Array.from({ length: ORB_COUNT }, (_, i) => (
-              <div key={i} className={styles.floatingOrb} />
-            ))}
-          </div>
-
-          {/* Sections */}
-          <HeroSection />
-          <CountdownSection />
-          <CelebrationSection />
-          <QuoteSection />
-          <FooterSection />
-        </div>
+      <div ref={pageRef} className={styles.page}>
+        <HeroSection />
+        <CountdownSection />
+        <InvitationSection />
+        <DetailsSection />
+        <RsvpSection />
+        <FooterSection />
       </div>
     </>
   );
