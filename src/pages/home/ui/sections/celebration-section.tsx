@@ -15,7 +15,7 @@ export const InvitationSection = () => {
       </div>
 
       <div className={styles.invitationDivider} />
-      <p className={styles.invitationSignature}>ABROR & MARVARD</p>
+      <p className={styles.invitationSignature}>ABROR & MARVARID</p>
     </section>
   );
 };
