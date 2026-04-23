@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { Scene3D } from "./scene-3d";
 import { HeroSection } from "./sections/hero-section";
 import { CountdownSection } from "./sections/countdown-section";
@@ -41,7 +42,7 @@ const Home = () => {
         `.${styles.footer}`,
       ];
 
-      sections.forEach((selector) => {
+      sections.forEach(selector => {
         gsap.from(selector, {
           scrollTrigger: {
             trigger: selector,
@@ -110,8 +111,7 @@ const Home = () => {
         type="button"
         className={styles.musicBtn}
         onClick={toggleMusic}
-        aria-label={isMuted ? "Musiqani yoqish" : "Musiqani o'chirish"}
-      >
+        aria-label={isMuted ? "Musiqani yoqish" : "Musiqani o'chirish"}>
         {isMuted ? "🔇" : "🔊"}
       </button>
 

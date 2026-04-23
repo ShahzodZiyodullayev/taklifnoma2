@@ -7,7 +7,7 @@ export const FooterSection = () => {
       <p className={styles.footerNames}>Abror & Marvard</p>
       <p className={styles.footerDate}>30.05.2026</p>
       <div className={styles.footerDivider} />
-      <p className={styles.footerMade}>Muhabbat bilan yaratildi</p>
+      <p className={styles.footerMade}>Ehtirom ila</p>
     </footer>
   );
 };
