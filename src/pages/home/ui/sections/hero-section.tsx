@@ -7,7 +7,7 @@ export const HeroSection = () => {
 
       <h1 className={styles.heroName}>Abror</h1>
       <span className={styles.heroAmpersand}>&</span>
-      <h1 className={styles.heroName}>Marvard</h1>
+      <h1 className={styles.heroName}>Marvarid</h1>
 
       <div className={styles.heroDivider} />
 
